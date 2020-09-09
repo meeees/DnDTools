@@ -25,7 +25,7 @@ module.exports = {
       },
     ],
   },
-  resolve: { 
+  resolve: {
     extensions: ['*', '.js', '.jsx'],
     alias: {
       '@assets': path.resolve(__dirname, 'public/'),
@@ -34,7 +34,7 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, 'dist/'),
-    publicPath: '/dist/',
+    publicPath: '/DnDTools/',
     filename: 'dndtools.js'
   },
   devServer: {
