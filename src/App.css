@@ -50,9 +50,17 @@
 }
 
 .NavbarButton img {
-  width: 3.5rem;
-  height: 3.5rem;
   padding-left: 0.1rem;
   pointer-events: none;
   position: relative;
+}
+
+.NavbarButton-Expanded img {
+  width: 3.8rem;
+  height: 3.8rem;
+}
+
+.NavbarButton-Collapsed img {
+  width: 3.5rem;
+  height: 3.5rem;
 }
