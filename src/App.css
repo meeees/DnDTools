@@ -29,6 +29,8 @@
   height: 4rem;
   position: relative;
   border-radius: 10px;
+  display: flex;
+  align-items: center;
 }
 
 .NavbarButton-Collapsed {
@@ -37,11 +39,20 @@
 
 .NavbarButton-Expanded {
   width: fit-content;
-  padding: 0.5rem;
+  padding-right: 0.5rem;
 }
 
 .NavbarButton span {
   position: relative;
   font-size: 2.5rem;
   pointer-events: none;
+  padding-left: 0.5rem;
+}
+
+.NavbarButton img {
+  width: 3.5rem;
+  height: 3.5rem;
+  padding-left: 0.1rem;
+  pointer-events: none;
+  position: relative;
 }
