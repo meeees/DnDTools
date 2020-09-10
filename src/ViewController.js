@@ -14,7 +14,6 @@ export const Views = {
 function ViewController(props) {
 
   var comp;
-  console.log(props.curView);
   switch (props.curView) {
     case Views.HOME:
       comp = <HomePageComponent />;
