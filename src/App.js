@@ -1,42 +1,19 @@
-import React, { Component, useState } from 'react';
+import React, { useState } from 'react';
 import { hot } from 'react-hot-loader';
 import './App.css';
-import img from '@assets/test.jpg';
-
-/*
-class App extends Component{
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      garbage: {
-        count: 0
-      }
-    };
-  }
-
-  render(){
-
-    const {garbage:g} = this.state;
-    const {count:c} = g
-
-    return(
-      <div className='App'>
-        <h1> Hello, World! {c} </h1>
-        <img src={img}/>
-        <button onClick = {() => this.setState({garbage: {count: c + 1}})}/>
-      </div>
-    );
-  }
-}*/
+import NavbarComponent from '@src/Navbar';
+import ViewController, { Views } from '@src/ViewController';
 
 function AppComponent() {
-  const [count, setCount] = useState(0);
+  var [curPage, setCurPage] = useState(Views.HOME);
+
+  function goToPage(newPage) {
+    setCurPage(newPage);
+  }
   return (
     <div className='App'>
-      <h1> Hello, World! {count} </h1>
-      <img src={img} />
-      <button onClick={() => setCount(count + 1)}>Button!</button>
+      <NavbarComponent navCallback={goToPage} />
+      <ViewController curView={curPage} />
     </div>
   );
 }
