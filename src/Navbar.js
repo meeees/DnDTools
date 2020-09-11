@@ -19,11 +19,10 @@ function NavbarComponent(props) {
   ];
   var buttonRefs = useRef([]);
   buttonRefs.current = new Array(buttonDefs.length);
-  var buttons = buttonDefs.map((b, i, a) =>
-    <Fragment key={b.name}>
-      <NavbarItem ref={el => buttonRefs.current[i] = el} symbol={b.symbol} name={b.name}
-        navCallback={(newPage) => { props.navCallback(newPage); }} toView={b.toView} curView={props.curView} />
-    </Fragment>
+  var buttons = buttonDefs.map((b, i) =>
+    <NavbarItem key={b.name} ref={el => buttonRefs.current[i] = el} symbol={b.symbol} name={b.name}
+      navCallback={(newPage) => { props.navCallback(newPage); }} toView={b.toView} curView={props.curView} 
+    />
   );
 
   function resetButtonCSS() {

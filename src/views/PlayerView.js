@@ -39,9 +39,7 @@ function PlayerListComponent() {
   function generatePlayerList(playerDefs) {
     // console.log(playerDefs);
     var ps = playerDefs.map((p, i) =>
-      <Fragment key={i}>
-        <PlayerListEntry name={p.name} level={p.level} race={p.race} playerClass={p.playerClass} />
-      </Fragment>);
+      <PlayerListEntry key={i} name={p.name} level={p.level} race={p.race} playerClass={p.playerClass} />);
     setPlayers(ps);
   }
 
