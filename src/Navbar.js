@@ -59,8 +59,10 @@ const NavbarItem = forwardRef(function NavbarItem2(props, ref) {
   useEffect(setClass, [expanded]);
 
   function setClass() {
-    myItem.current.className = 'NavbarButton' + (expanded ? ' NavbarButton-Expanded' : ' NavbarButton-Collapsed')
-      + (props.curView == props.toView ? ' NavbarButton-Selected' : '');
+    let className = 'NavbarButton';
+    className += expanded ? ' NavbarButton-Expanded' : ' NavbarButton-Collapsed';
+    className += props.curView == props.toView ? ` NavbarButton-Selected${expanded ? '-Expanded' : ''}` : '';
+    myItem.current.className = className;
   }
 
   function expandItem() {
