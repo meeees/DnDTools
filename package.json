@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack-dev-server --mode development --config webpack.config.dev.js",
     "build": "webpack --mode development",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist",
+    "ghdeploy": "webpack --mode development && gh-pages -d dist"
   },
   "author": "Michael Barre (meeees)",
   "license": "ISC",
