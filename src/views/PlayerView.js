@@ -12,29 +12,36 @@ function PlayerListComponent() {
     db.players.toArray().then((res) => generatePlayerList(res)).then(setPlayersDirty(false));
   }
 
-  function addPlayer(name, level) {
-    console.log(typeof (level));
-    db.players.put({ name: name, level: parseInt(level) }).then(clearInputValues).then(setPlayersDirty(true));
+  function addPlayer(name, level, pClass, race) {
+    db.players.put(
+      { name: name, level: parseInt(level), playerClass: pClass, race: race })
+      .then(clearInputValues).then(setPlayersDirty(true));
   }
 
   function clearInputValues() {
     nameRef.current.value = '';
-    levelRef.current.value = '';
+    //levelRef.current.value = '';
+    classRef.current.value = '';
+    raceRef.current.value = '';
   }
 
   function clearAllPlayers() {
     db.players.clear().then(setPlayersDirty(true));
   }
 
+  // TODO: forms
   const nameRef = useRef();
   const levelRef = useRef();
+  const classRef = useRef();
+  const raceRef = useRef();
 
 
   function generatePlayerList(playerDefs) {
     // console.log(playerDefs);
     var ps = playerDefs.map((p, i) =>
       <Fragment key={i}>
-        <PlayerListEntry name={p.name} level={p.level} />
+        <PlayerListEntry name={p.name} level={p.level} race={p.race} playerClass={p.playerClass} />
+        <br />
       </Fragment>);
     setPlayers(ps);
   }
@@ -43,13 +50,20 @@ function PlayerListComponent() {
   var [playersDirty, setPlayersDirty] = useState(true);
   useEffect(loadPlayers, [playersDirty]);
 
-  return <div>
+  return <div className="PlayerList">
     {players}
-    <span>Player Name <input type='text' ref={nameRef} /></span>
     <br />
-    <span>Player Level <input type='number' ref={levelRef} /></span>
+    <span>Player Name <input type='text' ref={nameRef} />
+      &nbsp;&nbsp;&nbsp;&nbsp;
+      Player Level <input type='number' ref={levelRef} />
+    </span>
     <br />
-    <button onClick={() => addPlayer(nameRef.current.value, levelRef.current.value)}>Add Player</button>
+    <span>Player Class <input type='text' ref={classRef} />
+      &nbsp;&nbsp;&nbsp;&nbsp;
+      Player Race <input type='text' ref={raceRef} />
+    </span>
+    <br />
+    <button onClick={() => addPlayer(nameRef.current.value, levelRef.current.value, classRef.current.value, raceRef.current.value)}>Add Player</button>
     &nbsp;&nbsp;&nbsp;&nbsp;
     <button onClick={clearAllPlayers}>Clear All</button>
   </div>;
@@ -58,14 +72,16 @@ function PlayerListComponent() {
 function PlayerListEntry(props) {
   return (
     <div className="PlayerEntry">
-      {props.name} {props.level}
+      <b>{props.name}</b> | Level {props.level} {props.race} {props.playerClass}
     </div>
   );
 }
 
 PlayerListEntry.propTypes = {
   name: PropTypes.string,
-  level: PropTypes.number
+  level: PropTypes.number,
+  race: PropTypes.string,
+  playerClass: PropTypes.string
 };
 
 
