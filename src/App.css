@@ -54,12 +54,13 @@
   padding-right: 0.5rem;
   max-width: 40rem;
   background-color: rgb(216, 224, 250);
+  box-shadow: 4px 2px 4px -2px rgb(0, 0, 0, 0.5), inset 0px 0px 3px #3f3f3f;
 }
 
 .NavbarButton-Selected {
   background-color: rgb(216, 224, 250);
   border-width: 3px;
-  box-shadow: inset 1px 1px 3px 1px #3f3f3f;
+  box-shadow: 4px 2px 4px -2px rgb(0, 0, 0, 0.5), inset 1px 1px 3px 1px #3f3f3f;
 }
 
 .NavbarButton span {
