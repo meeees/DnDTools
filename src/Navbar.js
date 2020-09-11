@@ -23,7 +23,6 @@ function NavbarComponent(props) {
     <Fragment key={b.name}>
       <NavbarItem ref={el => buttonRefs.current[i] = el} symbol={b.symbol} name={b.name}
         navCallback={(newPage) => { props.navCallback(newPage); }} toView={b.toView} curView={props.curView} />
-      {i == a.length - 1 ? null : <br />}
     </Fragment>
   );
 
