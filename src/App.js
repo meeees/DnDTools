@@ -5,15 +5,19 @@ import NavbarComponent from '@src/Navbar';
 import ViewController, { Views } from '@src/ViewController';
 
 function AppComponent() {
-  var [curPage, setCurPage] = useState(Views.HOME);
+  var [curView, setCurrentView] = useState(loadStoredView() || Views.HOME);
 
-  function goToPage(newPage) {
-    setCurPage(newPage);
+  function loadStoredView() {
+    return localStorage.getItem('currentView');
+  }
+  function goToView(newView) {
+    localStorage.setItem('currentView', newView);
+    setCurrentView(newView);
   }
   return (
     <div className='App'>
-      <NavbarComponent navCallback={goToPage} curView={curPage} />
-      <ViewController curView={curPage} />
+      <NavbarComponent navCallback={goToView} curView={curView} />
+      <ViewController curView={curView} />
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import NotImplementedComponent from '@src/views/NotImplemented';
 import HomePageComponent from '@src/views/HomePage';
+import PlayerListComponent from '@src/views/PlayerView';
 import PropTypes from 'prop-types';
 
 export const Views = {
@@ -19,7 +20,7 @@ function ViewController(props) {
       comp = <HomePageComponent />;
       break;
     case Views.PLAYERS:
-      comp = <NotImplementedComponent name='Players' />;
+      comp = <PlayerListComponent />;
       break;
     case Views.ENCOUNTERS:
       comp = <NotImplementedComponent name='Encounters' />;
