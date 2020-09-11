@@ -71,7 +71,14 @@ function PlayerListComponent() {
 function PlayerListEntry(props) {
   return (
     <div className="PlayerEntry">
-      <b>{props.name}</b> | Level {props.level} {props.race} {props.playerClass}
+      <div>
+        <span><b>{props.name}</b></span>
+        <span>Level: {props.level}</span>
+      </div>
+      <div>
+        <span>{props.race}</span>
+        <span>{props.playerClass}</span>
+      </div>
     </div>
   );
 }

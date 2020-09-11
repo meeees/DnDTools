@@ -1,4 +1,4 @@
-*{
+* {
   margin: 0;
   padding: 0;
 }
@@ -24,6 +24,10 @@
 .NavbarButtonDiv {
   width: 100%;
   position: relative;
+}
+
+.NavbarButtonDiv:not(:last-child) {
+  margin-bottom: 0.75rem;
 }
 
 .NavbarButton {

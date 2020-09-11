@@ -9,6 +9,11 @@
   border-style: solid;
 }
 
+.PlayerEntry > div {
+  display: flex;
+  justify-content: space-between;
+}
+
 .PlayerList {
   padding: 0.5rem;
 }
