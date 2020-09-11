@@ -29,12 +29,14 @@
   height: 4rem;
   position: relative;
   border-radius: 10px;
+  border-color: black;
   display: flex;
   align-items: center;
   max-width: 4rem;
   transition: max-width 1s;
   background-color: rgb(151, 170, 226);
   overflow-x: hidden;
+  box-shadow: inset 0px 0px 3px #3f3f3f;
 }
 
 .NavbarButton-Collapsed {
@@ -51,6 +53,7 @@
 
 .NavbarButton-Selected {
   background-color: rgb(203, 215, 250);
+  border-width: 3px;
 }
 
 .NavbarButton span {

@@ -21,8 +21,8 @@ function NavbarComponent(props) {
   buttonRefs.current = new Array(buttonDefs.length);
   var buttons = buttonDefs.map((b, i, a) =>
     <Fragment key={b.name}>
-      <NavbarItem ref={el => buttonRefs.current[i] = el} symbol={b.symbol} name={b.name} navCallback={(newPage) => { props.navCallback(newPage); }}
-        toView={b.toView} curView={props.curView} />
+      <NavbarItem ref={el => buttonRefs.current[i] = el} symbol={b.symbol} name={b.name}
+        navCallback={(newPage) => { props.navCallback(newPage); }} toView={b.toView} curView={props.curView} />
       {i == a.length ? null : <br />}
     </Fragment>
   );
@@ -69,12 +69,12 @@ const NavbarItem = forwardRef(function NavbarItem2(props, ref) {
     setExpanded(true);
   }
 
-  function collapseItem() {
+  function collapseItem(e) {
     setExpanded(false);
+    e.target.blur();
   }
 
-  function triggerNav(e) {
-    e.target.blur();
+  function triggerNav() {
     props.navCallback(props.toView);
   }
 
