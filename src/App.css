@@ -31,15 +31,26 @@
   border-radius: 10px;
   display: flex;
   align-items: center;
+  max-width: 4rem;
+  transition: max-width 1s;
+  background-color: #dfdfdf;
+  overflow-x: hidden;
+}
+
+
+.NavbarButton-Selected {
+  background-color: aqua;
 }
 
 .NavbarButton-Collapsed {
   width: 4rem;
+  transition: none;
 }
 
 .NavbarButton-Expanded {
   width: fit-content;
   padding-right: 0.5rem;
+  max-width: 40rem;
 }
 
 .NavbarButton span {

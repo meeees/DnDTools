@@ -12,7 +12,7 @@ function AppComponent() {
   }
   return (
     <div className='App'>
-      <NavbarComponent navCallback={goToPage} />
+      <NavbarComponent navCallback={goToPage} curView={curPage} />
       <ViewController curView={curPage} />
     </div>
   );

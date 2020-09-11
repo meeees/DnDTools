@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef, Fragment, forwardRef, useImperativeHandle } from 'react';
 import PropTypes from 'prop-types';
 import { Views } from '@src/ViewController';
 
@@ -9,58 +9,91 @@ import npcImg from '@assets/nav_icons/npcs.png';
 import playerImg from '@assets/nav_icons/players.png';
 
 function NavbarComponent(props) {
+
+  const buttonDefs = [
+    { name: 'Home', symbol: homeImg, toView: Views.HOME },
+    { name: 'Players', symbol: playerImg, toView: Views.PLAYERS },
+    { name: 'Encounters', symbol: encounterImg, toView: Views.ENCOUNTERS },
+    { name: 'Areas', symbol: areaImg, toView: Views.AREAS },
+    { name: 'NPCs', symbol: npcImg, toView: Views.NPCS }
+  ];
+  var buttonRefs = useRef([]);
+  buttonRefs.current = new Array(buttonDefs.length);
+  var buttons = buttonDefs.map((b, i, a) =>
+    <Fragment key={b.name}>
+      <NavbarItem ref={el => buttonRefs.current[i] = el} symbol={b.symbol} name={b.name} navCallback={(newPage) => { props.navCallback(newPage); }}
+        toView={b.toView} curView={props.curView} />
+      {i == a.length ? null : <br />}
+    </Fragment>
+  );
+
+  function resetButtonCSS() {
+    for (const b in buttonRefs.current) {
+      buttonRefs.current[b].updateClass();
+    }
+  }
+  useEffect(resetButtonCSS, [props.curView]);
+
   return (
     <div className='Navbar'>
-      <NavbarItem symbol={homeImg} name='Home' navCallback={props.navCallback} toView={Views.HOME} />
-      <br />
-      <NavbarItem symbol={playerImg} name='Players' navCallback={props.navCallback} toView={Views.PLAYERS} />
-      <br />
-      <NavbarItem symbol={encounterImg} name='Encounters' navCallback={props.navCallback} toView={Views.ENCOUNTERS} />
-      <br />
-      <NavbarItem symbol={areaImg} name='Areas' navCallback={props.navCallback} toView={Views.AREAS} />
-      <br />
-      <NavbarItem symbol={npcImg} name='NPCs' navCallback={props.navCallback} toView={Views.NPCS} />
+      {buttons}
     </div>
   );
 }
 
 NavbarComponent.propTypes = {
-  navCallback: PropTypes.func
+  navCallback: PropTypes.func,
+  curView: PropTypes.string
 };
 
-function NavbarItem(props) {
+const NavbarItem = forwardRef(function NavbarItem2(props, ref) {
+
+  useImperativeHandle(ref, () => ({
+    updateClass() {
+      setClass();
+    }
+  }),
+  );
 
   const [expanded, setExpanded] = useState(false);
 
-  function expandItem(e) {
-    e.target.className = 'NavbarButton NavbarButton-Expanded';
+  const myItem = useRef();
+  useEffect(setClass, [expanded]);
+
+  function setClass() {
+    myItem.current.className = 'NavbarButton' + (expanded ? ' NavbarButton-Expanded' : ' NavbarButton-Collapsed')
+      + (props.curView == props.toView ? ' NavbarButton-Selected' : '');
+  }
+
+  function expandItem() {
     setExpanded(true);
   }
 
-  function collapseItem(e) {
-    e.target.className = 'NavbarButton NavbarButton-Collapsed';
+  function collapseItem() {
     setExpanded(false);
   }
 
-  function triggerNav() {
+  function triggerNav(e) {
+    e.target.blur();
     props.navCallback(props.toView);
   }
 
   return (
     <div className='NavbarButtonDiv'>
-      <button className='NavbarButton NavbarButton-Collapsed' onMouseOver={expandItem} onMouseLeave={collapseItem} onClick={triggerNav}>
+      <button ref={myItem} onMouseOver={expandItem} onMouseLeave={collapseItem}
+        onClick={triggerNav} onFocus={expandItem} onBlur={collapseItem}>
         <img src={props.symbol} />
         {expanded ? <span>{props.name}</span> : null}
       </button>
-    </div>
-  );
-}
+    </div>);
+});
 
 NavbarItem.propTypes = {
   name: PropTypes.string,
-  symbol: PropTypes.object,
+  symbol: PropTypes.string,
   navCallback: PropTypes.func,
-  toView: PropTypes.string
+  toView: PropTypes.string,
+  curView: PropTypes.string,
 };
 
 export default NavbarComponent;
