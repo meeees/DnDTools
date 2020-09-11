@@ -41,7 +41,6 @@ function PlayerListComponent() {
     var ps = playerDefs.map((p, i) =>
       <Fragment key={i}>
         <PlayerListEntry name={p.name} level={p.level} race={p.race} playerClass={p.playerClass} />
-        <br />
       </Fragment>);
     setPlayers(ps);
   }
