@@ -91,15 +91,15 @@ const PlayerDetails = ({ expanded }) => (
   <Fragment>
     <div className={'PlayerBody' + (expanded ? ' PlayerBody-Expanded' : '')}>
       {expanded &&
-        <div className="PlayerBodyScroll" >
-          <div className='PlayerDetails'>
-            <div className='PlayerDetailsDescription'>
-              <span>SOME DETAILS ABOUT THE PLAYER REEEE SOME DETAILS ABOUT THE PLAYER REEEE </span>
-            </div>
-            <div className='PlayerDetailsItems'>
-              SOME ITEMS THE PLAYER HAS
-            </div>
+        <div className="PlayerBodyScroll">
+
+          <div className="PlayerDetailsDescription">
+              SOME DETAILS ABOUT THE PLAYER REEEE
           </div>
+          <div className='PlayerDetailsItems'>
+            SOME ITEMS THE PLAYER HAS
+          </div>
+
         </div>
       }
     </div>

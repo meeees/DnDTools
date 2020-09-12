@@ -19,7 +19,7 @@
   font-size: 1.5rem;
   transition-property: height;
   transition-duration: 0.5s;
-  -webkit-user-select: none; /* Safari */        
+  -webkit-user-select: none; /* Safari */
   -moz-user-select: none; /* Firefox */
   -ms-user-select: none; /* IE10+/Edge */
   user-select: none; /* Standard */
@@ -72,6 +72,9 @@
 
 .PlayerBody {
   position: relative;
+  margin: 0 auto;
+  width: 30rem;
+  box-sizing: border-box;
   z-index: -1;
   transform: scaleY(0);
   max-height: 2rem;
@@ -87,29 +90,23 @@
   transform-origin: top;
 }
 
-
 .PlayerBodyScroll {
-  width: 30rem;
-  margin: 0 auto;
   margin-top: -2rem;
+  padding: 2rem 1rem 0.5rem;
   border: 3px solid rgb(255, 239, 190);
   background-color: rgb(253, 244, 218);
   box-sizing: border-box;
-  padding: 1rem;
-  padding-top: 2rem;
-}
-
-.PlayerDetails {
-  display: flex;
-  justify-content: space-between;
-  box-sizing: border-box;
-  height: calc(100% + 2rem);
 }
 
 .PlayerDetailsDescription {
   width: 72.5%;
+  display: inline-block;
+  vertical-align: top;
 }
 
 .PlayerDetailsItems {
   width: 22.5%;
+  margin-left: 5%;
+  display: inline-block;
+  vertical-align: top;
 }
