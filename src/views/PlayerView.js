@@ -1,4 +1,4 @@
-import React, { Fragment, useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import db from '@src/Database';
 import PropTypes from 'prop-types';
 import './Views.css';
@@ -55,7 +55,9 @@ function PlayerListComponent() {
     //console.log(playerDefs);
     var ps = playerDefs.map((p, i) =>
       <PlayerListEntry key={i} playerData={p}
-        editCallback={updatePlayer} deleteCallback={deletePlayer} />);
+        editCallback={updatePlayer}
+        deleteCallback={deletePlayer}
+      />);
     setPlayers(ps);
   }
 
@@ -128,24 +130,27 @@ const PlayerDetails = ({ expanded, playerData, deleteCallback, editCallback }) =
     <div className={'PlayerBody' + (expanded ? ' PlayerBody-Expanded' : '')}>
       {expanded &&
         <div className="PlayerBodyScroll">
-          <table><tbody>
+          <table style={{ borderCollapse: 'separate', borderSpacing: '1rem 0'}}><tbody>
             <tr>
               <td className='PlayerTableLeft'><b>Notes</b></td>
               <td className='PlayerTableRight'><b>Items</b></td>
             </tr>
             <tr>
-              <td className='PlayerTableLeft'><div className="PlayerDetails" contentEditable={supports_textonly_contenteditable() ? 'plaintext-only' : 'true'}
-                onBlur={e => editCallback(playerData.id, { description: e.target.innerText })}
-                suppressContentEditableWarning='true' >
-                {playerData.description}
-              </div></td>
-              <td className='PlayerTableRight'>
-                <div className='PlayerDetails'>
-                  {getItems().map((it, i) => <PlayerItem name={it} key={i} />)}
+              <td className='PlayerTableLeft'>
+                <div className="PlayerDetails PlayerNotes" contentEditable={supports_textonly_contenteditable() ? 'plaintext-only' : 'true'}
+                  onBlur={e => editCallback(playerData.id, { description: e.target.innerText })}
+                  suppressContentEditableWarning='true' >
+                  {playerData.description}
                 </div>
-                <span><input type='text' className='PlayerAddItem' ref={itemNameRef} />
+              </td>
+              <td className='PlayerTableRight'>
+                {!getItems().length ? null : <div className='PlayerDetails PlayerItems'>
+                  {getItems().map((it, i) => <PlayerItem name={it} key={i} />)}    
+                </div>}
+                <div className='PlayerAddItemHolder'>
+                  <input type='text' className='PlayerAddItem' ref={itemNameRef} />
                   <button className='PlayerModifyButton' onClick={(e) => { addItem(); e.target.blur(); }}>+</button>
-                </span>
+                </div>
               </td>
             </tr>
           </tbody></table>

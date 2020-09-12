@@ -93,7 +93,7 @@
 
 .PlayerBodyScroll {
   margin-top: -2rem;
-  padding: 2rem 1rem 0.5rem;
+  padding: 2rem 0 0.5rem;
   border: 3px solid rgb(255, 239, 190);
   background-color: rgb(253, 244, 218);
   box-sizing: border-box;
@@ -106,9 +106,9 @@
 
 .PlayerTableRight {
   width: 30%;
-  padding-left: 3%;
   vertical-align: top;
 }
+
 .PlayerDetails {
   white-space: pre-wrap;
   background-color: rgb(255, 239, 190);
@@ -116,14 +116,31 @@
   border-color: rgb(238, 220, 168);
   border-style: solid;
   border-width: 2px;
+  box-sizing: border-box;
   width: 100%;
   min-height: 1rem;
 }
 
+.PlayerNotes {
+  padding: 0.25rem;
+}
+
+.PlayerItems {
+  margin-bottom: 0.25rem;
+}
+
+.PlayerAddItemHolder {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 0.25rem 0.125rem;
+}
+
 .PlayerAddItem {
-  width: 70%;
+  width: 75%;
+  box-sizing: border-box;
+  height: 1.5rem;
   font-size: 1rem;
-  margin-top: 4%;
   background-color: rgb(255, 239, 190);
   border-color: rgb(238, 220, 168);
 }
@@ -139,9 +156,16 @@
 
 .PlayerItemEntry {
   background-color: rgb(255, 239, 190);
-  border-color: rgb(238, 220, 168);
-  border-radius: 4px;
-  border-width: 1px;
-  border-style: solid;
-  padding: 2%;
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.5rem;
+}
+.PlayerItemEntry:not(:first-child) {
+  border-top: 1px solid rgb(238, 220, 168);
+  /* border-top-left-radius: 0rem; */
+  /* border-top-right-radius: 0rem; */
+}
+.PlayerItemEntry:not(:last-child) {
+  border-bottom: 1px solid rgb(238, 220, 168);
+  /* border-bottom-left-radius: 0rem; */
+  /* border-bottom-right-radius: 0rem; */
 }
