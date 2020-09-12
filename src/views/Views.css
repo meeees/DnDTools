@@ -107,6 +107,7 @@
 .PlayerTableRight {
   width: 30%;
   vertical-align: top;
+  overflow-x: visible;
 }
 
 .PlayerDetails {
@@ -212,28 +213,19 @@
   transform: translate(-50%, -50%) rotate(45deg);
 }
 
+.PlayerItemDeleteButtonConfirm::before {
+  height: 0.5rem;
+  transform: translate(0.05rem, -55%) rotate(45deg);
+}
+
+.PlayerItemDeleteButtonConfirm::after {
+  width: 0.25rem;
+  transform: translate(-100%, 0.03rem) rotate(45deg);
+}
+
 .PlayerItemDeleteModal {
   position: absolute;
   left: 0.25rem;
   top: 50%;
   transform: translateY(-50%);
-}
-
-.PlayerItemDelete-ModalText,
-.PlayerItemDelete-ModalButtons {
-  display: flex;
-  justify-content: space-around;
-}
-.PlayerItemDelete-ModalButtons > button {
-  margin-top: 0.25rem;
-  border: 2px solid rgb(197, 173, 100);
-  border-radius: 0.25rem;
-  background-color: rgb(223, 199, 126);
-  padding: 0 0.125rem;
-}
-.PlayerItemDelete-ModalButtons > button:focus {
-  box-shadow: inset 1px 1px 3px 2px rgba(0, 0, 0, 0.25);
-}
-.PlayerItemDelete-ModalButtons > button:first-child {
-  background-color: rgb(255, 223, 129);
 }

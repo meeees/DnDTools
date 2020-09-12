@@ -137,7 +137,7 @@ const PlayerDetails = ({ expanded, playerData, deleteCallback, editCallback }) =
     <div className={'PlayerBody' + (expanded ? ' PlayerBody-Expanded' : '')}>
       {expanded &&
         <div className="PlayerBodyScroll">
-          <table style={{ borderCollapse: 'separate', borderSpacing: '1rem 0'}}><tbody>
+          <table style={{ borderCollapse: 'separate', borderSpacing: '1rem 0' }}><tbody>
             <tr>
               <td className='PlayerTableLeft'><b>Notes</b></td>
               <td className='PlayerTableRight'><b>Items</b></td>
@@ -152,7 +152,7 @@ const PlayerDetails = ({ expanded, playerData, deleteCallback, editCallback }) =
               </td>
               <td className='PlayerTableRight'>
                 {!getItems().length ? null : <div className='PlayerDetails PlayerItems'>
-                  {getItems().map((it, i) => <PlayerItem name={it} key={i} removeItem={() => removeItem(i)}/>)}    
+                  {getItems().map((it, i) => <PlayerItem name={it} key={i} removeItem={() => removeItem(i)} />)}
                 </div>}
                 <div className='PlayerAddItemHolder'>
                   <input type='text' className='PlayerAddItem' ref={itemNameRef} />
@@ -195,47 +195,37 @@ PlayerListEntry.propTypes = {
 };
 
 function PlayerItem({ name, removeItem }) {
+  function resolveDeletePress() {
+    if (confirmDelete) {
+      removeItem();
+      // need to do this because using index as key
+      setConfirmDelete(false);
+    }
+    else {
+      setConfirmDelete(true);
+    }
+  }
+
+  function clearConfirm() {
+    setConfirmDelete(false);
+  }
+  const [confirmDelete, setConfirmDelete] = useState(false);
   return (
     <div className='PlayerItemEntry'>
-      {name}
-      <PlayerItemDeleteButton removeItem={removeItem} />
+      {confirmDelete ? 'Delete item?' : name}
+      <div className='PlayerItemDeleteButtonHolder'>
+        <button
+          className={'PlayerModifyButton PlayerItemDeleteButton' + (confirmDelete ? ' PlayerItemDeleteButtonConfirm' : '')}
+          onClick={resolveDeletePress} onBlur={clearConfirm}
+        />
+      </div>
     </div>
   );
 }
 
 PlayerItem.propTypes = {
-  name: PropTypes.string
+  name: PropTypes.string,
+  removeItem: PropTypes.func
 };
-
-function PlayerItemDeleteButton({ removeItem }) {
-  const [showModal, setShowModal] = useState(false);
-
-  const onConfirm = () => { 
-    removeItem();
-    setShowModal(false); 
-  };
-  const onClose = () => { 
-    setShowModal(false); 
-  };
-  
-  return (
-    <div className='PlayerItemDeleteButtonHolder'>
-      <button 
-        className='PlayerModifyButton PlayerItemDeleteButton'
-        onClick={() => { setShowModal(!showModal); }}
-      />
-      <Modal 
-        className='PlayerItemDeleteModal'
-        showModal={showModal}
-      >
-        <div className='PlayerItemDelete-ModalText'>Delete item?</div>
-        <div className='PlayerItemDelete-ModalButtons'>
-          <button onClick={onConfirm}>Confirm</button>
-          <button onClick={onClose}>Close</button>
-        </div>
-      </Modal>
-    </div>
-  );
-}
 
 export default PlayerListComponent;
