@@ -47,6 +47,7 @@
 
 .NavbarButton-Expanded {
   width: fit-content;
+  width: -moz-fit-content;
   padding-right: 0.5rem;
   max-width: 40rem;
   background-color: rgb(216, 224, 250);
