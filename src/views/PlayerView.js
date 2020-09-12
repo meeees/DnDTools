@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import './Views.css';
 import scroll from '@assets/scroll.png';
 import { supports_textonly_contenteditable } from '@src/Compatability.js';
+import Modal from '../components/Modal';
 
 function PlayerListComponent() {
 
@@ -121,7 +122,13 @@ const PlayerDetails = ({ expanded, playerData, deleteCallback, editCallback }) =
     itemNameRef.current.value = '';
     var items = getItems();
     items.push(name);
-    editCallback(playerData.id, { items: items });
+    editCallback(playerData.id, { items });
+  }
+
+  function removeItem(item) {
+    let items = [...getItems()];
+    items.splice(item, 1);
+    editCallback(playerData.id, { items });
   }
 
   const itemNameRef = useRef();
@@ -145,7 +152,7 @@ const PlayerDetails = ({ expanded, playerData, deleteCallback, editCallback }) =
               </td>
               <td className='PlayerTableRight'>
                 {!getItems().length ? null : <div className='PlayerDetails PlayerItems'>
-                  {getItems().map((it, i) => <PlayerItem name={it} key={i} />)}    
+                  {getItems().map((it, i) => <PlayerItem name={it} key={i} removeItem={() => removeItem(i)}/>)}    
                 </div>}
                 <div className='PlayerAddItemHolder'>
                   <input type='text' className='PlayerAddItem' ref={itemNameRef} />
@@ -187,9 +194,12 @@ PlayerListEntry.propTypes = {
   editCallback: PropTypes.func
 };
 
-function PlayerItem(props) {
+function PlayerItem({ name, removeItem }) {
   return (
-    <div className='PlayerItemEntry'>{props.name}</div>
+    <div className='PlayerItemEntry'>
+      {name}
+      <PlayerItemDeleteButton removeItem={removeItem} />
+    </div>
   );
 }
 
@@ -197,5 +207,35 @@ PlayerItem.propTypes = {
   name: PropTypes.string
 };
 
+function PlayerItemDeleteButton({ removeItem }) {
+  const [showModal, setShowModal] = useState(false);
+
+  const onConfirm = () => { 
+    removeItem();
+    setShowModal(false); 
+  };
+  const onClose = () => { 
+    setShowModal(false); 
+  };
+  
+  return (
+    <div className='PlayerItemDeleteButtonHolder'>
+      <button 
+        className='PlayerModifyButton PlayerItemDeleteButton'
+        onClick={() => { setShowModal(!showModal); }}
+      />
+      <Modal 
+        className='PlayerItemDeleteModal'
+        showModal={showModal}
+      >
+        <div className='PlayerItemDelete-ModalText'>Delete item?</div>
+        <div className='PlayerItemDelete-ModalButtons'>
+          <button onClick={onConfirm}>Confirm</button>
+          <button onClick={onClose}>Close</button>
+        </div>
+      </Modal>
+    </div>
+  );
+}
 
 export default PlayerListComponent;
