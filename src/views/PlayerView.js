@@ -67,15 +67,35 @@ function PlayerListComponent() {
 }
 
 function PlayerListEntry(props) {
+
+  const [expanded, setExpanded] = useState(false);
   return (
     <div className="PlayerEntry">
-      <div>
-        <span><b>{props.name}</b></span>
-        <span>Level: {props.level}</span>
+      <div className="PlayerEntryMain" onClick={() => { setExpanded(!expanded); }}>
+        <div>
+          <span><b>{props.name}</b></span>
+          <span>Level: {props.level}</span>
+        </div>
+        <div>
+          <span>{props.race}</span>
+          <span>{props.playerClass}</span>
+        </div>
+      </div>
+      {
+        expanded ? <Fragment><br /><hr color='rgb(26, 85, 21)' /><br /><PlayerEntryDetails /></Fragment> : null
+      }
+    </div>
+  );
+}
+
+function PlayerEntryDetails(props) {
+  return (
+    <div className='PlayerEntryDetails'>
+      <div className='PlayerEntryDetailsDescription'>
+        SOME DETAILS ABOUT THE PLAYER REEEE
       </div>
       <div>
-        <span>{props.race}</span>
-        <span>{props.playerClass}</span>
+        SOME ITEMS THE PLAYER HAS
       </div>
     </div>
   );
