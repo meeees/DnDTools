@@ -23,6 +23,7 @@
   -moz-user-select: none; /* Firefox */
   -ms-user-select: none; /* IE10+/Edge */
   user-select: none; /* Standard */
+  z-index: 2;
 }
 
 .PlayerName {
@@ -75,7 +76,7 @@
   margin: 0 auto;
   width: 30rem;
   box-sizing: border-box;
-  z-index: -1;
+  z-index: 1;
   transform: scaleY(0);
   max-height: 2rem;
 }
@@ -98,15 +99,49 @@
   box-sizing: border-box;
 }
 
-.PlayerDetailsDescription {
-  width: 72.5%;
-  display: inline-block;
+.PlayerTableLeft {
+  width: 70%;
   vertical-align: top;
 }
 
-.PlayerDetailsItems {
-  width: 22.5%;
-  margin-left: 5%;
-  display: inline-block;
+.PlayerTableRight {
+  width: 30%;
+  padding-left: 3%;
   vertical-align: top;
+}
+.PlayerDetails {
+  white-space: pre-wrap;
+  background-color: rgb(255, 239, 190);
+  border-radius: 10px;
+  border-color: rgb(238, 220, 168);
+  border-style: solid;
+  border-width: 2px;
+  width: 100%;
+  min-height: 1rem;
+}
+
+.PlayerAddItem {
+  width: 70%;
+  font-size: 1rem;
+  margin-top: 4%;
+  background-color: rgb(255, 239, 190);
+  border-color: rgb(238, 220, 168);
+}
+.PlayerModifyButton {
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-left: 5%;
+  font-size: 1rem;
+  border-radius: 4px;
+  background-color: rgb(255, 239, 190);
+  border-color: rgb(238, 220, 168);
+}
+
+.PlayerItemEntry {
+  background-color: rgb(255, 239, 190);
+  border-color: rgb(238, 220, 168);
+  border-radius: 4px;
+  border-width: 1px;
+  border-style: solid;
+  padding: 2%;
 }

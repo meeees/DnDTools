@@ -15,8 +15,20 @@ function PlayerListComponent() {
 
   function addPlayer(name, level, pClass, race) {
     db.players.put(
-      { name: name, level: parseInt(level), playerClass: pClass, race: race })
+      {
+        name: name, level: parseInt(level), playerClass: pClass, race: race,
+        // defaults
+        description: '', items: []
+      })
       .then(clearInputValues).then(setPlayersDirty(true));
+  }
+
+  function updatePlayer(id, nameAndField) {
+    db.players.update(id, nameAndField).then(setPlayersDirty(true));
+  }
+
+  function deletePlayer(id) {
+    db.players.delete(id).then(setPlayersDirty(true));
   }
 
   function clearInputValues() {
@@ -38,9 +50,10 @@ function PlayerListComponent() {
 
 
   function generatePlayerList(playerDefs) {
-    // console.log(playerDefs);
+    //console.log(playerDefs);
     var ps = playerDefs.map((p, i) =>
-      <PlayerListEntry key={i} name={p.name} level={p.level} race={p.race} playerClass={p.playerClass} />);
+      <PlayerListEntry key={i} playerData={p}
+        editCallback={updatePlayer} deleteCallback={deletePlayer} />);
     setPlayers(ps);
   }
 
@@ -87,50 +100,94 @@ PlayerHeader.propTypes = {
 };
 
 
-const PlayerDetails = ({ expanded }) => (
-  <Fragment>
+const PlayerDetails = ({ expanded, playerData, deleteCallback, editCallback }) => {
+  function getItems() {
+    if (playerData.items == undefined) {
+      return [];
+    }
+    return playerData.items;
+  }
+
+  function addItem() {
+    const name = itemNameRef.current.value;
+    if (name === '') {
+      return;
+    }
+    itemNameRef.current.value = '';
+    var items = getItems();
+    items.push(name);
+    editCallback(playerData.id, { items: items });
+  }
+
+  const itemNameRef = useRef();
+
+  return (
     <div className={'PlayerBody' + (expanded ? ' PlayerBody-Expanded' : '')}>
       {expanded &&
         <div className="PlayerBodyScroll">
-
-          <div className="PlayerDetailsDescription">
-              SOME DETAILS ABOUT THE PLAYER REEEE
-          </div>
-          <div className='PlayerDetailsItems'>
-            SOME ITEMS THE PLAYER HAS
-          </div>
-
+          <table><tbody>
+            <tr>
+              <td className='PlayerTableLeft'><b>Notes</b></td>
+              <td className='PlayerTableRight'><b>Items</b></td>
+            </tr>
+            <tr>
+              <td className='PlayerTableLeft'><div className="PlayerDetails" contentEditable='true'
+                onBlur={e => editCallback(playerData.id, { description: e.target.innerText })}
+                suppressContentEditableWarning='true' >
+                {playerData.description}
+              </div></td>
+              <td className='PlayerTableRight'>
+                <div className='PlayerDetails'>
+                  {getItems().map((it, i) => <PlayerItem name={it} key={i} />)}
+                </div>
+                <span><input type='text' className='PlayerAddItem' ref={itemNameRef} />
+                  <button className='PlayerModifyButton' onClick={(e) => { addItem(); e.target.blur(); }}>+</button>
+                </span>
+              </td>
+            </tr>
+          </tbody></table>
         </div>
       }
-    </div>
-  </Fragment>
-);
-
-PlayerDetails.propTypes = {
-  expanded: PropTypes.bool.isRequired
+    </div>);
 };
 
+PlayerDetails.propTypes = {
+  expanded: PropTypes.bool.isRequired,
+  playerData: PropTypes.object,
+  deleteCallback: PropTypes.func,
+  editCallback: PropTypes.func
+};
 
 function PlayerListEntry(props) {
-  const { name, level, race, playerClass } = props;
+  const { playerData, deleteCallback, editCallback } = props;
 
   const [expanded, setExpanded] = useState(false);
 
   return (
     <div className="PlayerEntryHolder">
-      <PlayerHeader name={name} level={level} race={race} playerClass={playerClass}
+      <PlayerHeader name={playerData.name} level={playerData.level} race={playerData.race} playerClass={playerData.playerClass}
         onClick={() => { setExpanded(!expanded); }}
       />
-      <PlayerDetails expanded={expanded} />
+      <PlayerDetails expanded={expanded} playerData={playerData} deleteCallback={deleteCallback} editCallback={editCallback} />
     </div>
   );
 }
 
 PlayerListEntry.propTypes = {
-  name: PropTypes.string,
-  level: PropTypes.number,
-  race: PropTypes.string,
-  playerClass: PropTypes.string
+  playerData: PropTypes.object,
+  deleteCallback: PropTypes.func,
+  editCallback: PropTypes.func
 };
+
+function PlayerItem(props) {
+  return (
+    <div className='PlayerItemEntry'>{props.name}</div>
+  );
+}
+
+PlayerItem.propTypes = {
+  name: PropTypes.string
+};
+
 
 export default PlayerListComponent;
