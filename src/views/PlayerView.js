@@ -3,6 +3,7 @@ import db from '@src/Database';
 import PropTypes from 'prop-types';
 import './Views.css';
 import scroll from '@assets/scroll.png';
+import { supports_textonly_contenteditable } from '@src/Compatability.js';
 
 function PlayerListComponent() {
 
@@ -24,6 +25,7 @@ function PlayerListComponent() {
   }
 
   function updatePlayer(id, nameAndField) {
+    console.log(nameAndField);
     db.players.update(id, nameAndField).then(setPlayersDirty(true));
   }
 
@@ -101,6 +103,7 @@ PlayerHeader.propTypes = {
 
 
 const PlayerDetails = ({ expanded, playerData, deleteCallback, editCallback }) => {
+
   function getItems() {
     if (playerData.items == undefined) {
       return [];
@@ -131,7 +134,7 @@ const PlayerDetails = ({ expanded, playerData, deleteCallback, editCallback }) =
               <td className='PlayerTableRight'><b>Items</b></td>
             </tr>
             <tr>
-              <td className='PlayerTableLeft'><div className="PlayerDetails" contentEditable='true'
+              <td className='PlayerTableLeft'><div className="PlayerDetails" contentEditable={supports_textonly_contenteditable() ? 'plaintext-only' : 'true'}
                 onBlur={e => editCallback(playerData.id, { description: e.target.innerText })}
                 suppressContentEditableWarning='true' >
                 {playerData.description}
