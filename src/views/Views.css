@@ -86,8 +86,8 @@
   transform: scaleY(1);
   max-height: 40rem;
   transition-property: transform, max-height;
-  transition-duration: 0.5s, 2s;
-  transition-timing-function: ease-out;
+  transition-duration: 0.5s, 0.5s;
+  transition-timing-function: ease-in-out, ease-in;
   transform-origin: top;
 }
 
@@ -119,6 +119,14 @@
   box-sizing: border-box;
   width: 100%;
   min-height: 1rem;
+  max-height: 34rem;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.PlayerDetails::-webkit-scrollbar {
+  width: 0;
+  height: 0;
 }
 
 .PlayerNotes {
