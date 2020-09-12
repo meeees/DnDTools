@@ -19,6 +19,10 @@
   font-size: 1.5rem;
   transition-property: height;
   transition-duration: 0.5s;
+  -webkit-user-select: none; /* Safari */        
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+  user-select: none; /* Standard */
 }
 
 .PlayerName {
@@ -69,7 +73,20 @@
 .PlayerBody {
   position: relative;
   z-index: -1;
+  transform: scaleY(0);
+  max-height: 2rem;
 }
+
+.PlayerBody-Expanded {
+  height: auto;
+  transform: scaleY(1);
+  max-height: 40rem;
+  transition-property: transform, max-height;
+  transition-duration: 0.5s, 2s;
+  transition-timing-function: ease-out;
+  transform-origin: top;
+}
+
 
 .PlayerBodyScroll {
   width: 30rem;

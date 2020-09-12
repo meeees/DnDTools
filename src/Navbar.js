@@ -21,7 +21,7 @@ function NavbarComponent(props) {
   buttonRefs.current = new Array(buttonDefs.length);
   var buttons = buttonDefs.map((b, i) =>
     <NavbarItem key={b.name} ref={el => buttonRefs.current[i] = el} symbol={b.symbol} name={b.name}
-      navCallback={(newPage) => { props.navCallback(newPage); }} toView={b.toView} curView={props.curView} 
+      navCallback={(newPage) => { props.navCallback(newPage); }} toView={b.toView} curView={props.curView}
     />
   );
 
@@ -60,7 +60,7 @@ const NavbarItem = forwardRef(function NavbarItem2(props, ref) {
 
   function setClass() {
     let className = 'NavbarButton';
-    className += expanded ? ' NavbarButton-Expanded' : ' NavbarButton-Collapsed';
+    className += expanded ? ' NavbarButton-Expanded' : '';
     className += props.curView == props.toView ? ` NavbarButton-Selected${expanded ? '-Expanded' : ''}` : '';
     myItem.current.className = className;
   }

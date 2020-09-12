@@ -69,8 +69,8 @@ function PlayerListComponent() {
 
 
 const PlayerHeader = ({ name, level, race, playerClass, onClick }) => (
-  <div className="PlayerHeader" onClick={onClick}>
-    <img src={scroll} className="PlayerHeaderScroll"/>
+  <div className="PlayerHeader" onClick={onClick} >
+    <img src={scroll} className="PlayerHeaderScroll" />
     <div className="PlayerName">{name}&nbsp;&nbsp;&nbsp;</div>
     <div className="PlayerLevel">{level}</div>
     <span className="PlayerRace">{race}</span>
@@ -89,20 +89,20 @@ PlayerHeader.propTypes = {
 
 const PlayerDetails = ({ expanded }) => (
   <Fragment>
-    {expanded && 
-      <div className="PlayerBody">
+    <div className={'PlayerBody' + (expanded ? ' PlayerBody-Expanded' : '')}>
+      {expanded &&
         <div className="PlayerBodyScroll" >
           <div className='PlayerDetails'>
             <div className='PlayerDetailsDescription'>
-              SOME DETAILS ABOUT THE PLAYER REEEE
+              <span>SOME DETAILS ABOUT THE PLAYER REEEE SOME DETAILS ABOUT THE PLAYER REEEE </span>
             </div>
-            <div>
+            <div className='PlayerDetailsItems'>
               SOME ITEMS THE PLAYER HAS
             </div>
           </div>
         </div>
-      </div>
-    }
+      }
+    </div>
   </Fragment>
 );
 
@@ -118,7 +118,7 @@ function PlayerListEntry(props) {
 
   return (
     <div className="PlayerEntryHolder">
-      <PlayerHeader name={name} level={level} race={race} playerClass={playerClass} 
+      <PlayerHeader name={name} level={level} race={race} playerClass={playerClass}
         onClick={() => { setExpanded(!expanded); }}
       />
       <PlayerDetails expanded={expanded} />

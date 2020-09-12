@@ -32,22 +32,17 @@
 
 .NavbarButton {
   height: 4rem;
+  width: 4rem;
   position: relative;
   border-radius: 10px;
   border-color: black;
   display: flex;
   align-items: center;
   max-width: 4rem;
-  transition: max-width 1s;
   background-color: rgb(151, 170, 226);
   overflow-x: hidden;
   box-shadow: inset 0px 0px 3px #3f3f3f;
   z-index: 100;
-}
-
-.NavbarButton-Collapsed {
-  width: 4rem;
-  transition: none;
 }
 
 .NavbarButton-Expanded {
@@ -56,6 +51,7 @@
   max-width: 40rem;
   background-color: rgb(216, 224, 250);
   box-shadow: 4px 2px 4px -2px rgb(0, 0, 0, 0.5), inset 0px 0px 3px #3f3f3f;
+  transition: max-width 1s;
 }
 
 .NavbarButton-Selected {
