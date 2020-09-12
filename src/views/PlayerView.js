@@ -2,6 +2,7 @@ import React, { Fragment, useRef, useState, useEffect } from 'react';
 import db from '@src/Database';
 import PropTypes from 'prop-types';
 import './Views.css';
+import scroll from '@assets/scroll.png';
 
 function PlayerListComponent() {
 
@@ -66,37 +67,57 @@ function PlayerListComponent() {
   </div>;
 }
 
+
+const PlayerHeader = ({ name, level, race, playerClass, onClick }) => (
+  <div className="PlayerHeader" onClick={onClick}>
+    <img src={scroll} className="PlayerHeaderScroll"/>
+    <div className="PlayerName">{name}&nbsp;&nbsp;&nbsp;</div>
+    <div className="PlayerLevel">{level}</div>
+    <span className="PlayerRace">{race}</span>
+    <div className="PlayerClass">{playerClass}</div>
+  </div>
+);
+
+PlayerHeader.propTypes = {
+  name: PropTypes.string,
+  level: PropTypes.number,
+  race: PropTypes.string,
+  playerClass: PropTypes.string,
+  onClick: PropTypes.func,
+};
+
+
+const PlayerDetails = ({ expanded }) => (
+  <Fragment>
+    {expanded && 
+      <div className='PlayerDetails'>
+        <div className='PlayerDetailsDescription'>
+          SOME DETAILS ABOUT THE PLAYER REEEE
+        </div>
+        <div>
+          SOME ITEMS THE PLAYER HAS
+        </div>
+      </div>
+    }
+  </Fragment>
+);
+
+PlayerDetails.propTypes = {
+  expanded: PropTypes.bool.isRequired
+};
+
+
 function PlayerListEntry(props) {
+  const { name, level, race, playerClass } = props;
 
   const [expanded, setExpanded] = useState(false);
-  return (
-    <div className="PlayerEntry">
-      <div className="PlayerEntryMain" onClick={() => { setExpanded(!expanded); }}>
-        <div>
-          <span><b>{props.name}</b></span>
-          <span>Level: {props.level}</span>
-        </div>
-        <div>
-          <span>{props.race}</span>
-          <span>{props.playerClass}</span>
-        </div>
-      </div>
-      {
-        expanded ? <Fragment><br /><hr color='rgb(26, 85, 21)' /><br /><PlayerEntryDetails /></Fragment> : null
-      }
-    </div>
-  );
-}
 
-function PlayerEntryDetails(props) {
   return (
-    <div className='PlayerEntryDetails'>
-      <div className='PlayerEntryDetailsDescription'>
-        SOME DETAILS ABOUT THE PLAYER REEEE
-      </div>
-      <div>
-        SOME ITEMS THE PLAYER HAS
-      </div>
+    <div className="PlayerEntryHolder">
+      <PlayerHeader name={name} level={level} race={race} playerClass={playerClass} 
+        onClick={() => { setExpanded(!expanded); }}
+      />
+      <PlayerDetails expanded={expanded} />
     </div>
   );
 }
@@ -107,6 +128,5 @@ PlayerListEntry.propTypes = {
   race: PropTypes.string,
   playerClass: PropTypes.string
 };
-
 
 export default PlayerListComponent;

@@ -1,36 +1,85 @@
-.PlayerEntry {
-  background-color: rgb(182, 226, 175);
-  border-color: rgb(26, 85, 21);
-  border-width: 2px;
-  border-radius: 10px;
+.PlayerList {
   padding: 0.5rem;
-  margin-bottom: 0.5rem;
+}
+
+.PlayerEntryHolder:not(:first-child) {
+  margin-top: 0.5rem;
+}
+
+.PlayerHeaderScroll {
+  height: 100px;
+  width: 100%;
+}
+
+.PlayerHeader {
+  position: relative;
+  box-sizing: border-box;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  font-size: 1.5rem;
   transition-property: height;
   transition-duration: 0.5s;
-  border-style: solid;
 }
 
-.PlayerEntryMain {
-  font-size: 1.5rem;
+.PlayerName {
+  position: absolute;
+  display: inline-block;
+  top: 10%;
+  left: 18%;
+  max-width: 27rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  font-size: 3rem;
+  font-family: 'Edwardian Script ITC', Arial, Helvetica, sans-serif;
+  font-weight: bold;
 }
 
-.PlayerEntryMain > div {
+.PlayerLevel {
+  position: absolute;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
+  top: 10%;
+  right: 5%;
+  font-size: 1.35rem;
+  color: rgb(133, 21, 19);
+  font-weight: bold;
 }
 
-.PlayerEntryDetails {
+.PlayerRace {
+  position: absolute;
+  top: 69%;
+  left: 17.5%;
+  font-size: 1.2rem;
+  font-style: italic;
+  transform: rotate(-4deg);
+  transform-origin: top left;
+}
+
+.PlayerClass {
+  position: absolute;
+  right: 2.5%;
+  top: 60%;
+  font-size: 1.2rem;
+  font-style: italic;
+  transform: rotate(4deg);
+  transform-origin: bottom right;
+}
+
+.PlayerDetails {
   display: flex;
+  width: 85%;
+  justify-self: center;
+  margin-left: 10%;
+  margin-right: 5%;
+  border: 3px solid rgb(230, 214, 168);
 }
 
-.PlayerEntryDetailsDescription {
+.PlayerDetailsDescription {
   width: 70%;
 }
 
-.PlayerEntryDetailsItems {
+.PlayerDetailsItems {
   width: 30%;
-}
-
-.PlayerList {
-  padding: 0.5rem;
 }

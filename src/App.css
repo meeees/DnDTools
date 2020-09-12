@@ -42,6 +42,7 @@
   background-color: rgb(151, 170, 226);
   overflow-x: hidden;
   box-shadow: inset 0px 0px 3px #3f3f3f;
+  z-index: 100;
 }
 
 .NavbarButton-Collapsed {
