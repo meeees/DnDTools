@@ -90,12 +90,16 @@ PlayerHeader.propTypes = {
 const PlayerDetails = ({ expanded }) => (
   <Fragment>
     {expanded && 
-      <div className='PlayerDetails'>
-        <div className='PlayerDetailsDescription'>
-          SOME DETAILS ABOUT THE PLAYER REEEE
-        </div>
-        <div>
-          SOME ITEMS THE PLAYER HAS
+      <div className="PlayerBody">
+        <div className="PlayerBodyScroll" >
+          <div className='PlayerDetails'>
+            <div className='PlayerDetailsDescription'>
+              SOME DETAILS ABOUT THE PLAYER REEEE
+            </div>
+            <div>
+              SOME ITEMS THE PLAYER HAS
+            </div>
+          </div>
         </div>
       </div>
     }

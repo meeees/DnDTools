@@ -8,12 +8,11 @@
 
 .PlayerHeaderScroll {
   height: 100px;
-  width: 100%;
+  width: 35rem;
 }
 
 .PlayerHeader {
   position: relative;
-  box-sizing: border-box;
   top: 0;
   width: 100%;
   height: 100%;
@@ -67,19 +66,33 @@
   transform-origin: bottom right;
 }
 
+.PlayerBody {
+  position: relative;
+  z-index: -1;
+}
+
+.PlayerBodyScroll {
+  width: 30rem;
+  margin: 0 auto;
+  margin-top: -2rem;
+  border: 3px solid rgb(255, 239, 190);
+  background-color: rgb(253, 244, 218);
+  box-sizing: border-box;
+  padding: 1rem;
+  padding-top: 2rem;
+}
+
 .PlayerDetails {
   display: flex;
-  width: 85%;
-  justify-self: center;
-  margin-left: 10%;
-  margin-right: 5%;
-  border: 3px solid rgb(230, 214, 168);
+  justify-content: space-between;
+  box-sizing: border-box;
+  height: calc(100% + 2rem);
 }
 
 .PlayerDetailsDescription {
-  width: 70%;
+  width: 72.5%;
 }
 
 .PlayerDetailsItems {
-  width: 30%;
+  width: 22.5%;
 }
