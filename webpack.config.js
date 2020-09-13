@@ -43,7 +43,8 @@ module.exports = {
     new htmlwebpack({
       hash: true,
       filename: './index.html',
-      template: 'public/prod_index.html'
+      template: 'public/prod_index.html',
+      favicon: './public/favicon.ico'
     })
   ]
 };
