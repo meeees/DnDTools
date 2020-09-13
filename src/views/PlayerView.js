@@ -5,6 +5,8 @@ import './PlayerView.css';
 import scroll from '@assets/scroll.png';
 import { supports_textonly_contenteditable } from '@src/Compatability.js';
 
+var draggedItem = null;
+
 function PlayerListComponent() {
 
   function loadPlayers() {
@@ -25,7 +27,7 @@ function PlayerListComponent() {
   }
 
   function updatePlayer(id, nameAndField) {
-    console.log(nameAndField);
+    //console.log(nameAndField);
     db.players.update(id, nameAndField).then(setPlayersDirty(true));
   }
 
@@ -53,8 +55,8 @@ function PlayerListComponent() {
 
   function generatePlayerList(playerDefs) {
     //console.log(playerDefs);
-    var ps = playerDefs.map((p, i) =>
-      <PlayerListEntry key={i} playerData={p}
+    var ps = playerDefs.map((p) =>
+      <PlayerListEntry key={p.id} playerData={p}
         editCallback={updatePlayer}
         deleteCallback={deletePlayer}
       />);
@@ -83,6 +85,46 @@ function PlayerListComponent() {
     <button onClick={clearAllPlayers}>Clear All</button>
   </div>;
 }
+
+function PlayerListEntry(props) {
+  const { playerData, deleteCallback, editCallback } = props;
+  const expandedStore = 'p-' + playerData.id + '-expanded';
+  const [expanded, setExpanded] = useState(Boolean(localStorage.getItem(expandedStore)));
+
+  function itemDropped(e) {
+    e.preventDefault();
+    // if this is the current player, don't do anything
+    if (draggedItem == null || draggedItem.playerId == playerData.id) {
+      return;
+    }
+    // otherwise remove it and add it to the current player
+    draggedItem.removeCall();
+    if (playerData.items === undefined) {
+      playerData.items = [];
+    }
+    playerData.items.push(draggedItem.name);
+    editCallback(playerData.id, { items: playerData.items });
+  }
+
+  function enableDrop(e) {
+    e.preventDefault();
+  }
+
+  return (
+    <div className="PlayerEntryHolder" onDrop={itemDropped} onDragOver={enableDrop}>
+      <PlayerHeader name={playerData.name} level={playerData.level} race={playerData.race} playerClass={playerData.playerClass}
+        onClick={() => { setExpanded(!expanded); localStorage.setItem(expandedStore, expanded); }}
+      />
+      <PlayerDetails expanded={expanded} playerData={playerData} deleteCallback={deleteCallback} editCallback={editCallback} />
+    </div>
+  );
+}
+
+PlayerListEntry.propTypes = {
+  playerData: PropTypes.object,
+  deleteCallback: PropTypes.func,
+  editCallback: PropTypes.func
+};
 
 
 const PlayerHeader = ({ name, level, race, playerClass, onClick }) => (
@@ -151,7 +193,7 @@ const PlayerDetails = ({ expanded, playerData, deleteCallback, editCallback }) =
               </td>
               <td className='PlayerTableRight'>
                 {!getItems().length ? null : <div className='PlayerDetails PlayerItems'>
-                  {getItems().map((it, i) => <PlayerItem name={it} key={i} removeItem={() => removeItem(i)} />)}
+                  {getItems().map((it, i) => <PlayerItem playerId={playerData.id} name={it} key={i} removeItem={() => removeItem(i)} />)}
                 </div>}
                 <div className='PlayerAddItemHolder'>
                   <input type='text' className='PlayerAddItem' ref={itemNameRef} />
@@ -172,28 +214,7 @@ PlayerDetails.propTypes = {
   editCallback: PropTypes.func
 };
 
-function PlayerListEntry(props) {
-  const { playerData, deleteCallback, editCallback } = props;
-
-  const [expanded, setExpanded] = useState(false);
-
-  return (
-    <div className="PlayerEntryHolder">
-      <PlayerHeader name={playerData.name} level={playerData.level} race={playerData.race} playerClass={playerData.playerClass}
-        onClick={() => { setExpanded(!expanded); }}
-      />
-      <PlayerDetails expanded={expanded} playerData={playerData} deleteCallback={deleteCallback} editCallback={editCallback} />
-    </div>
-  );
-}
-
-PlayerListEntry.propTypes = {
-  playerData: PropTypes.object,
-  deleteCallback: PropTypes.func,
-  editCallback: PropTypes.func
-};
-
-function PlayerItem({ name, removeItem }) {
+function PlayerItem({ playerId, name, removeItem }) {
   function resolveDeletePress() {
     if (confirmDelete) {
       removeItem();
@@ -208,14 +229,23 @@ function PlayerItem({ name, removeItem }) {
   function clearConfirm() {
     setConfirmDelete(false);
   }
+
+  function setupDrag() {
+    draggedItem = { name: name, playerId: playerId, removeCall: removeItem };
+  }
+
+  function endDrag() {
+    draggedItem = null;
+  }
+
   const [confirmDelete, setConfirmDelete] = useState(false);
   return (
-    <div className='PlayerItemEntry'>
+    <div className='PlayerItemEntry' draggable='true' onDragStart={setupDrag} onDragEnd={endDrag}>
       {confirmDelete ? 'Delete item?' : name}
       <div className='PlayerItemDeleteButtonHolder'>
         <button
           className={'PlayerModifyButton PlayerItemDeleteButton' + (confirmDelete ? ' PlayerItemDeleteButtonConfirm' : '')}
-          onClick={resolveDeletePress} onMouseLeave={clearConfirm}
+          onClick={resolveDeletePress} onMouseLeave={clearConfirm} onBlur={clearConfirm}
         />
       </div>
     </div>
@@ -224,7 +254,8 @@ function PlayerItem({ name, removeItem }) {
 
 PlayerItem.propTypes = {
   name: PropTypes.string,
-  removeItem: PropTypes.func
+  removeItem: PropTypes.func,
+  playerId: PropTypes.number
 };
 
 export default PlayerListComponent;

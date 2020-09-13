@@ -196,7 +196,7 @@
   background-color: rgb(255, 239, 190);
 }
 
-.PlayerItemDeleteButton:hover::before {
+.PlayerItemDeleteButton:hover::before, .PlayerItemDeleteButton:focus::before {
   display: inline-block;
   position: absolute;
   content: '';
@@ -205,7 +205,7 @@
   border: 1px solid rgb(177, 155, 89);
   transform: translate(-50%, -50%) rotate(45deg);
 }
-.PlayerItemDeleteButton:hover::after {
+.PlayerItemDeleteButton:hover::after, .PlayerItemDeleteButton:focus::after {
   display: inline-block;
   position: absolute;
   content: '';
@@ -215,12 +215,12 @@
   transform: translate(-50%, -50%) rotate(45deg);
 }
 
-.PlayerItemDeleteButtonConfirm:hover::before {
+.PlayerItemDeleteButtonConfirm:hover::before, .PlayerItemDeleteButtonConfirm:focus::before {
   height: 0.5rem;
   transform: translate(0.05rem, -55%) rotate(45deg);
 }
 
-.PlayerItemDeleteButtonConfirm:hover::after {
+.PlayerItemDeleteButtonConfirm:hover::after,     .PlayerItemDeleteButtonConfirm:focus::after {
   width: 0.25rem;
   transform: translate(-100%, 0.03rem) rotate(45deg);
 }
