@@ -215,7 +215,7 @@ function PlayerItem({ name, removeItem }) {
       <div className='PlayerItemDeleteButtonHolder'>
         <button
           className={'PlayerModifyButton PlayerItemDeleteButton' + (confirmDelete ? ' PlayerItemDeleteButtonConfirm' : '')}
-          onClick={resolveDeletePress} onBlur={clearConfirm}
+          onClick={resolveDeletePress} onMouseLeave={clearConfirm}
         />
       </div>
     </div>
