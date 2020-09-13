@@ -1,10 +1,9 @@
 import React, { useRef, useState, useEffect } from 'react';
 import db from '@src/Database';
 import PropTypes from 'prop-types';
-import './Views.css';
+import './PlayerView.css';
 import scroll from '@assets/scroll.png';
 import { supports_textonly_contenteditable } from '@src/Compatability.js';
-import Modal from '../components/Modal';
 
 function PlayerListComponent() {
 

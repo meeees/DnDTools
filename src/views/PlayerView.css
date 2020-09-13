@@ -100,12 +100,12 @@
 }
 
 .PlayerTableLeft {
-  width: 70%;
+  width: 65%;
   vertical-align: top;
 }
 
 .PlayerTableRight {
-  width: 30%;
+  width: 35%;
   vertical-align: top;
   overflow-x: visible;
 }
@@ -143,7 +143,7 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  padding: 0.25rem 0.125rem;
+  padding: 0.25rem 0.25rem 0.25rem 0.125rem;
 }
 
 .PlayerAddItem {
@@ -193,8 +193,10 @@
   right: 0.125rem;
   top: 50%;
   transform: translateY(-50%);
+  background-color: rgb(255, 239, 190);
 }
-.PlayerItemDeleteButton::before {
+
+.PlayerItemDeleteButton:hover::before {
   display: inline-block;
   position: absolute;
   content: '';
@@ -203,7 +205,7 @@
   border: 1px solid rgb(177, 155, 89);
   transform: translate(-50%, -50%) rotate(45deg);
 }
-.PlayerItemDeleteButton::after {
+.PlayerItemDeleteButton:hover::after {
   display: inline-block;
   position: absolute;
   content: '';
@@ -213,19 +215,12 @@
   transform: translate(-50%, -50%) rotate(45deg);
 }
 
-.PlayerItemDeleteButtonConfirm::before {
+.PlayerItemDeleteButtonConfirm:hover::before {
   height: 0.5rem;
   transform: translate(0.05rem, -55%) rotate(45deg);
 }
 
-.PlayerItemDeleteButtonConfirm::after {
+.PlayerItemDeleteButtonConfirm:hover::after {
   width: 0.25rem;
   transform: translate(-100%, 0.03rem) rotate(45deg);
-}
-
-.PlayerItemDeleteModal {
-  position: absolute;
-  left: 0.25rem;
-  top: 50%;
-  transform: translateY(-50%);
 }
