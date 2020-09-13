@@ -13,26 +13,34 @@ function PlayerListComponent() {
     if (!playersDirty) {
       return;
     }
-    db.players.toArray().then((res) => generatePlayerList(res)).then(setPlayersDirty(false));
+    db.players.toArray()
+      .then((res) => generatePlayerList(res))
+      .then(setPlayersDirty(false));
   }
 
   function addPlayer(name, level, pClass, race) {
     db.players.put(
       {
-        name: name, level: parseInt(level), playerClass: pClass, race: race,
+        name: name,
+        level: parseInt(level),
+        playerClass: pClass,
+        race: race,
         // defaults
         description: '', items: []
       })
-      .then(clearInputValues).then(setPlayersDirty(true));
+      .then(clearInputValues)
+      .then(setPlayersDirty(true));
   }
 
   function updatePlayer(id, nameAndField) {
     //console.log(nameAndField);
-    db.players.update(id, nameAndField).then(setPlayersDirty(true));
+    db.players.update(id, nameAndField)
+      .then(setPlayersDirty(true));
   }
 
   function deletePlayer(id) {
-    db.players.delete(id).then(setPlayersDirty(true));
+    db.players.delete(id)
+      .then(setPlayersDirty(true));
   }
 
   function clearInputValues() {
@@ -43,7 +51,8 @@ function PlayerListComponent() {
   }
 
   function clearAllPlayers() {
-    db.players.clear().then(setPlayersDirty(true));
+    db.players.clear()
+      .then(setPlayersDirty(true));
   }
 
   // TODO: forms
@@ -56,7 +65,8 @@ function PlayerListComponent() {
   function generatePlayerList(playerDefs) {
     //console.log(playerDefs);
     var ps = playerDefs.map((p) =>
-      <PlayerListEntry key={p.id} playerData={p}
+      <PlayerListEntry key={p.id}
+        playerData={p}
         editCallback={updatePlayer}
         deleteCallback={deletePlayer}
       />);
@@ -70,19 +80,30 @@ function PlayerListComponent() {
   return <div className="PlayerList">
     {players}
     <br />
-    <span>Player Name <input type='text' ref={nameRef} />
+    <span>Player Name
+      <input type='text' ref={nameRef} />
       &nbsp;&nbsp;&nbsp;&nbsp;
-      Player Level <input type='number' ref={levelRef} />
+      Player Level
+      <input type='number' ref={levelRef} />
     </span>
     <br />
-    <span>Player Class <input type='text' ref={classRef} />
+    <span>Player Class
+      <input type='text' ref={classRef} />
       &nbsp;&nbsp;&nbsp;&nbsp;
-      Player Race <input type='text' ref={raceRef} />
+      Player Race
+      <input type='text' ref={raceRef} />
     </span>
     <br />
-    <button onClick={() => addPlayer(nameRef.current.value, levelRef.current.value, classRef.current.value, raceRef.current.value)}>Add Player</button>
+    <button
+      onClick={() => addPlayer(nameRef.current.value, levelRef.current.value,
+        classRef.current.value, raceRef.current.value)}>
+      Add Player
+    </button>
     &nbsp;&nbsp;&nbsp;&nbsp;
-    <button onClick={clearAllPlayers}>Clear All</button>
+    <button
+      onClick={clearAllPlayers}>
+      Clear All
+    </button>
   </div>;
 }
 
@@ -111,11 +132,22 @@ function PlayerListEntry(props) {
   }
 
   return (
-    <div className="PlayerEntryHolder" onDrop={itemDropped} onDragOver={enableDrop}>
-      <PlayerHeader name={playerData.name} level={playerData.level} race={playerData.race} playerClass={playerData.playerClass}
-        onClick={() => { setExpanded(!expanded); localStorage.setItem(expandedStore, expanded); }}
+    <div className="PlayerEntryHolder"
+      onDrop={itemDropped}
+      onDragOver={enableDrop}>
+      <PlayerHeader name={playerData.name}
+        level={playerData.level}
+        race={playerData.race}
+        playerClass={playerData.playerClass}
+        onClick={() => {
+          setExpanded(!expanded);
+          localStorage.setItem(expandedStore, expanded);
+        }}
       />
-      <PlayerDetails expanded={expanded} playerData={playerData} deleteCallback={deleteCallback} editCallback={editCallback} />
+      <PlayerDetails expanded={expanded}
+        playerData={playerData}
+        deleteCallback={() => deleteCallback(playerData.id)}
+        editCallback={(data) => editCallback(playerData.id, data)} />
     </div>
   );
 }
@@ -163,13 +195,13 @@ const PlayerDetails = ({ expanded, playerData, deleteCallback, editCallback }) =
     itemNameRef.current.value = '';
     var items = getItems();
     items.push(name);
-    editCallback(playerData.id, { items });
+    editCallback({ items });
   }
 
   function removeItem(item) {
     let items = [...getItems()];
     items.splice(item, 1);
-    editCallback(playerData.id, { items });
+    editCallback({ items });
   }
 
   const itemNameRef = useRef();
@@ -178,30 +210,69 @@ const PlayerDetails = ({ expanded, playerData, deleteCallback, editCallback }) =
     <div className={'PlayerBody' + (expanded ? ' PlayerBody-Expanded' : '')}>
       {expanded &&
         <div className="PlayerBodyScroll">
-          <table style={{ borderCollapse: 'separate', borderSpacing: '1rem 0' }}><tbody>
-            <tr>
-              <td className='PlayerTableLeft'><b>Notes</b></td>
-              <td className='PlayerTableRight'><b>Items</b></td>
-            </tr>
-            <tr>
-              <td className='PlayerTableLeft'>
-                <div className="PlayerDetails PlayerNotes" contentEditable={supports_textonly_contenteditable() ? 'plaintext-only' : 'true'}
-                  onBlur={e => editCallback(playerData.id, { description: e.target.innerText })}
-                  suppressContentEditableWarning='true' >
-                  {playerData.description}
-                </div>
-              </td>
-              <td className='PlayerTableRight'>
-                {!getItems().length ? null : <div className='PlayerDetails PlayerItems'>
-                  {getItems().map((it, i) => <PlayerItem playerId={playerData.id} name={it} key={i} removeItem={() => removeItem(i)} />)}
-                </div>}
-                <div className='PlayerAddItemHolder'>
-                  <input type='text' className='PlayerAddItem' ref={itemNameRef} />
-                  <button className='PlayerModifyButton' onClick={(e) => { addItem(); e.target.blur(); }}>+</button>
-                </div>
-              </td>
-            </tr>
-          </tbody></table>
+          <table style={{ borderCollapse: 'separate', borderSpacing: '1rem 0' }}>
+            <tbody>
+              <tr>
+                <td className='PlayerTableLeft'
+                  style={{ paddingBottom: '0.5rem' }}>
+                  <b>Level</b>
+                  <button className='PlayerModifyButton'
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => {
+                      if (playerData.level > 1) {
+                        editCallback({ level: playerData.level - 1 });
+                      }
+                    }}>
+                    -
+                  </button>
+                  <button className='PlayerModifyButton'
+                    style={{ marginLeft: '0.2rem' }}
+                    onClick={() => { editCallback({ level: playerData.level + 1 }); }}>
+                    +
+                  </button>
+                </td>
+                <td className='PlayerTableRight'
+                  style={{ paddingBottom: '0.5rem', textAlign: 'right' }}>
+                  <b>Delete</b>
+                  <button className='PlayerModifyButton'>	&#128465;</button>
+                </td>
+              </tr>
+              <tr>
+                <td className='PlayerTableLeft'><b>Notes</b></td>
+                <td className='PlayerTableRight'><b>Items</b></td>
+              </tr>
+              <tr>
+                <td className='PlayerTableLeft'>
+                  <div className="PlayerDetails PlayerNotes"
+                    contentEditable={supports_textonly_contenteditable() ? 'plaintext-only' : 'true'}
+                    onBlur={e => editCallback({ description: e.target.innerText })}
+                    suppressContentEditableWarning='true' >
+                    {playerData.description}
+                  </div>
+                </td>
+                <td className='PlayerTableRight'>
+                  {!getItems().length ? null : <div className='PlayerDetails PlayerItems'>
+                    {getItems().map((it, i) =>
+                      <PlayerItem playerId={playerData.id}
+                        name={it}
+                        key={i}
+                        removeItem={() => removeItem(i)} />)
+                    }
+                  </div>
+                  }
+                  <div className='PlayerAddItemHolder'>
+                    <input type='text'
+                      className='PlayerAddItem'
+                      ref={itemNameRef} />
+                    <button className='PlayerModifyButton'
+                      onClick={(e) => { addItem(); e.target.blur(); }}>
+                      +
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       }
     </div>);
@@ -231,7 +302,11 @@ function PlayerItem({ playerId, name, removeItem }) {
   }
 
   function setupDrag() {
-    draggedItem = { name: name, playerId: playerId, removeCall: removeItem };
+    draggedItem = {
+      name: name,
+      playerId: playerId,
+      removeCall: removeItem
+    };
   }
 
   function endDrag() {
@@ -240,12 +315,18 @@ function PlayerItem({ playerId, name, removeItem }) {
 
   const [confirmDelete, setConfirmDelete] = useState(false);
   return (
-    <div className='PlayerItemEntry' draggable='true' onDragStart={setupDrag} onDragEnd={endDrag}>
+    <div className='PlayerItemEntry'
+      draggable='true'
+      onDragStart={setupDrag}
+      onDragEnd={endDrag}>
       {confirmDelete ? 'Delete item?' : name}
       <div className='PlayerItemDeleteButtonHolder'>
         <button
-          className={'PlayerModifyButton PlayerItemDeleteButton' + (confirmDelete ? ' PlayerItemDeleteButtonConfirm' : '')}
-          onClick={resolveDeletePress} onMouseLeave={(e) => { clearConfirm(); e.target.blur(); }} onBlur={clearConfirm}
+          className={'PlayerModifyButton PlayerItemDeleteButton'
+            + (confirmDelete ? ' PlayerItemDeleteButtonConfirm' : '')}
+          onClick={resolveDeletePress}
+          onMouseLeave={(e) => { clearConfirm(); e.target.blur(); }}
+          onBlur={clearConfirm}
         />
       </div>
     </div>

@@ -20,8 +20,13 @@ function NavbarComponent(props) {
   var buttonRefs = useRef([]);
   buttonRefs.current = new Array(buttonDefs.length);
   var buttons = buttonDefs.map((b, i) =>
-    <NavbarItem key={b.name} ref={el => buttonRefs.current[i] = el} symbol={b.symbol} name={b.name}
-      navCallback={(newPage) => { props.navCallback(newPage); }} toView={b.toView} curView={props.curView}
+    <NavbarItem key={b.name}
+      ref={el => buttonRefs.current[i] = el}
+      symbol={b.symbol}
+      name={b.name}
+      navCallback={(newPage) => { props.navCallback(newPage); }}
+      toView={b.toView}
+      curView={props.curView}
     />
   );
 
@@ -61,7 +66,8 @@ const NavbarItem = forwardRef(function NavbarItem2(props, ref) {
   function setClass() {
     let className = 'NavbarButton';
     className += expanded ? ' NavbarButton-Expanded' : '';
-    className += props.curView == props.toView ? ` NavbarButton-Selected${expanded ? '-Expanded' : ''}` : '';
+    className += props.curView == props.toView ?
+      ` NavbarButton-Selected${expanded ? '-Expanded' : ''}` : '';
     myItem.current.className = className;
   }
 
@@ -80,8 +86,12 @@ const NavbarItem = forwardRef(function NavbarItem2(props, ref) {
 
   return (
     <div className='NavbarButtonDiv'>
-      <button ref={myItem} onMouseOver={expandItem} onMouseLeave={collapseItem}
-        onClick={triggerNav} onFocus={expandItem} onBlur={collapseItem}>
+      <button ref={myItem}
+        onMouseOver={expandItem}
+        onMouseLeave={collapseItem}
+        onClick={triggerNav}
+        onFocus={expandItem}
+        onBlur={collapseItem}>
         <img src={props.symbol} />
         {expanded ? <span>{props.name}</span> : null}
       </button>
