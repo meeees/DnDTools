@@ -353,7 +353,8 @@ function PlayerItem({ playerId, name, removeItem }) {
       {showModal && (
         <Modal left={left} top={top} offsetX={24}>
           Delete item?
-          <button onClick={() => { removeItem(); setShowModal(false); }}>Confirm</button>
+          <button className='PlayerModifyButton'
+            onClick={() => { removeItem(); setShowModal(false); }}>Confirm</button>
         </Modal>
       )}
     </div>
