@@ -153,6 +153,7 @@
   background-color: rgb(255, 239, 190);
   border-color: rgb(238, 220, 168);
 }
+
 .PlayerModifyButton {
   width: 1.5rem;
   height: 1.5rem;
@@ -169,6 +170,7 @@
   border-radius: 0.5rem;
   padding-right: calc(1.5rem + 0.25rem);
   position: relative;
+  word-break: normal;
 }
 .PlayerItemEntry:not(:first-child) {
   border-top: 1px solid rgb(238, 220, 168);
@@ -195,31 +197,34 @@
   background-color: rgb(255, 239, 190);
 }
 
-.PlayerItemDeleteButton:hover::before, .PlayerItemDeleteButton:focus::before {
+.PlayerItemDeleteButton:hover::before,
+.PlayerItemDeleteButton:focus::before,
+.PlayerItemDeleteButton:hover::after,
+.PlayerItemDeleteButton:focus::after {
   display: inline-block;
   position: absolute;
   content: '';
   width: 0px;
-  height: 0.5rem;
-  border: 1px solid rgb(177, 155, 89);
-  transform: translate(-50%, -50%) rotate(45deg);
+  height: 0.65rem;
+  border-right: 2px solid rgb(177, 155, 89);
 }
-.PlayerItemDeleteButton:hover::after, .PlayerItemDeleteButton:focus::after {
-  display: inline-block;
-  position: absolute;
-  content: '';
-  width: 0.5rem;
-  height: 0px;
-  border: 1px solid rgb(177, 155, 89);
-  transform: translate(-50%, -50%) rotate(45deg);
+.PlayerItemDeleteButton:hover::before,
+.PlayerItemDeleteButton:focus::before {
+  transform: translate(-50%, calc(-50% - 0px)) rotate(45deg);
+}
+.PlayerItemDeleteButton:hover::after,
+.PlayerItemDeleteButton:focus::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
 }
 
-.PlayerItemDeleteButtonConfirm:hover::before, .PlayerItemDeleteButtonConfirm:focus::before {
+.PlayerItemDeleteButtonConfirm:hover::before,
+.PlayerItemDeleteButtonConfirm:focus::before {
   height: 0.5rem;
   transform: translate(0.05rem, -55%) rotate(45deg);
 }
 
-.PlayerItemDeleteButtonConfirm:hover::after,     .PlayerItemDeleteButtonConfirm:focus::after {
-  width: 0.25rem;
-  transform: translate(-100%, 0.03rem) rotate(45deg);
+.PlayerItemDeleteButtonConfirm:hover::after,
+.PlayerItemDeleteButtonConfirm:focus::after {
+  height: 0.25rem;
+  transform: translate(-100%, 0.03rem) rotate(-45deg);
 }

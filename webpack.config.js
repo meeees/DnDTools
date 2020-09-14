@@ -30,7 +30,8 @@ module.exports = {
     extensions: ['*', '.js', '.jsx'],
     alias: {
       '@assets': path.resolve(__dirname, 'public/'),
-      '@src': path.resolve(__dirname, 'src/')
+      '@src': path.resolve(__dirname, 'src/'),
+      '@hooks': path.resolve(__dirname, 'src/hooks/')
     }
   },
   output: {

@@ -1,15 +1,16 @@
-.ModalHolder {
+/* .ModalHolder {
   position: relative;
   height: 100%;
   width: 100%;
 }
+*/
 
 .Modal {
   position: absolute;
-  z-index: 50;
+  z-index: 200;
   box-sizing: border-box;
   width: 8rem;
-  background-color: rgb(255, 239, 190);
+  background-color: rgb(253, 244, 218);
   border: 2px solid rgb(238, 220, 168);
   border-radius: 10px;
   padding: 0.25rem;
