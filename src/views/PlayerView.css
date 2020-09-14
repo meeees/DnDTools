@@ -26,6 +26,10 @@
   z-index: 2;
 }
 
+.PlayerHeaderInactive {
+  color: gray;
+}
+
 .PlayerName {
   position: absolute;
   display: inline-block;
@@ -155,13 +159,20 @@
 }
 
 .PlayerModifyButton {
-  width: 1.5rem;
   height: 1.5rem;
   margin-left: 5%;
   font-size: 1rem;
   border-radius: 4px;
   background-color: rgb(255, 239, 190);
   border-color: rgb(238, 220, 168);
+  padding-left: 0.2rem;
+  padding-right: 0.2rem;
+}
+
+.PlayerModifyButtonSquare {
+  width: 1.5rem;
+  padding-left: unset;
+  padding-right: unset;
 }
 
 .PlayerItemEntry {

@@ -29,6 +29,7 @@ function PlayerListComponent() {
         // defaults
         description: '',
         items: [],
+        active: true
       })
       .then(clearInputValues)
       .then(setPlayersDirty(true));
@@ -138,12 +139,10 @@ function PlayerListEntry(props) {
   }
 
   return (
-    <div className="PlayerEntryHolder" onDrop={itemDropped} onDragOver={enableDrop}>
-      <PlayerHeader
-        name={playerData.name}
-        level={playerData.level}
-        race={playerData.race}
-        playerClass={playerData.playerClass}
+    <div className="PlayerEntryHolder"
+      onDrop={itemDropped}
+      onDragOver={enableDrop}>
+      <PlayerHeader playerData={playerData}
         onClick={() => {
           setExpanded(!expanded);
           localStorage.setItem(expandedStore, expanded);
@@ -165,21 +164,20 @@ PlayerListEntry.propTypes = {
   editCallback: PropTypes.func,
 };
 
-const PlayerHeader = ({ name, level, race, playerClass, onClick }) => (
-  <div className="PlayerHeader" onClick={onClick}>
-    <img src={scroll} className="PlayerHeaderScroll" />
-    <div className="PlayerName">{name}&nbsp;&nbsp;&nbsp;</div>
-    <div className="PlayerLevel">{level}</div>
-    <span className="PlayerRace">{race}</span>
-    <div className="PlayerClass">{playerClass}</div>
+
+const PlayerHeader = ({ playerData, onClick }) => (
+  <div className={'PlayerHeader' + (playerData.active ? '' : ' PlayerHeaderInactive')}
+    onClick={onClick} >
+    <img src={scroll} className='PlayerHeaderScroll' />
+    <div className='PlayerName'>{playerData.name}&nbsp;&nbsp;&nbsp;</div>
+    <div className='PlayerLevel'>{playerData.level}</div>
+    <span className='PlayerRace'>{playerData.race}</span>
+    <div className='PlayerClass'>{playerData.playerClass}</div>
   </div>
 );
 
 PlayerHeader.propTypes = {
-  name: PropTypes.string,
-  level: PropTypes.number,
-  race: PropTypes.string,
-  playerClass: PropTypes.string,
+  playerData: PropTypes.object,
   onClick: PropTypes.func,
 };
 
@@ -219,8 +217,7 @@ const PlayerDetails = ({ expanded, playerData, deleteCallback, editCallback }) =
               <tr>
                 <td className="PlayerTableLeft" style={{ paddingBottom: '0.5rem' }}>
                   <b>Level</b>
-                  <button
-                    className="PlayerModifyButton"
+                  <button className='PlayerModifyButton PlayerModifyButtonSquare'
                     style={{ marginLeft: '0.5rem' }}
                     onClick={() => {
                       if (playerData.level > 1) {
@@ -228,24 +225,29 @@ const PlayerDetails = ({ expanded, playerData, deleteCallback, editCallback }) =
                       }
                     }}
                   >
-                    -
+                    <b>-</b>
                   </button>
                   <button
-                    className="PlayerModifyButton"
+                    className="PlayerModifyButton PlayerModifyButtonSquare"
                     style={{ marginLeft: '0.2rem' }}
                     onClick={() => {
                       editCallback({ level: playerData.level + 1 });
                     }}
                   >
-                    +
+                    <b>+</b>
+                  </button>
+                  <button className="PlayerModifyButton"
+                    style={{ marginLeft: '5rem' }}
+                    onClick={() => editCallback({ active: !playerData.active })}>
+                    <b>{playerData.active ? 'Disable' : 'Enable'}</b>
                   </button>
                 </td>
                 <td
                   className="PlayerTableRight"
                   style={{ paddingBottom: '0.5rem', textAlign: 'right' }}
                 >
-                  <b>Delete</b>
-                  <button className="PlayerModifyButton"> &#128465;</button>
+
+                  <button className="PlayerModifyButton"><b>Delete</b></button>
                 </td>
               </tr>
               <tr>
@@ -292,12 +294,12 @@ const PlayerDetails = ({ expanded, playerData, deleteCallback, editCallback }) =
                     <input type="text" className="PlayerAddItem" ref={itemNameRef} />
                     <button
                       type="submit"
-                      className="PlayerModifyButton"
+                      className="PlayerModifyButton PlayerModifyButtonSquare"
                       onClick={(e) => {
                         e.target.blur();
                       }}
                     >
-                      +
+                      <b>+</b>
                     </button>
                   </form>
                 </td>
@@ -305,8 +307,9 @@ const PlayerDetails = ({ expanded, playerData, deleteCallback, editCallback }) =
             </tbody>
           </table>
         </div>
-      )}
-    </div>
+      )
+      }
+    </div >
   );
 };
 
@@ -320,23 +323,8 @@ PlayerDetails.propTypes = {
 function PlayerItem({ playerId, name, removeItem }) {
   const [showModal, setShowModal] = useState(false);
 
-  const [confirmDelete, setConfirmDelete] = useState(false);
   const [left, setLeft] = useState(0);
   const [top, setTop] = useState(0);
-
-  function resolveDeletePress() {
-    if (confirmDelete) {
-      removeItem();
-      // need to do this because using index as key
-      setConfirmDelete(false);
-    } else {
-      setConfirmDelete(true);
-    }
-  }
-
-  function clearConfirm() {
-    setConfirmDelete(false);
-  }
 
   function setupDrag() {
     draggedItem = {
@@ -354,7 +342,7 @@ function PlayerItem({ playerId, name, removeItem }) {
     <div className="PlayerItemEntry" draggable="true" onDragStart={setupDrag} onDragEnd={endDrag}>
       {name}
       <button
-        className="PlayerModifyButton PlayerItemDeleteButton"
+        className="PlayerModifyButton PlayerModifyButtonSquare PlayerItemDeleteButton"
         onClick={(e) => {
           setShowModal(!showModal);
           const boundingRect = e.target.getBoundingClientRect();
