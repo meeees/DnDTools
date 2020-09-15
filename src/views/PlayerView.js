@@ -29,7 +29,7 @@ function PlayerListComponent() {
         // defaults
         description: '',
         items: [],
-        active: true
+        active: 1
       })
       .then(clearInputValues)
       .then(setPlayersDirty(true));
@@ -166,7 +166,7 @@ PlayerListEntry.propTypes = {
 
 
 const PlayerHeader = ({ playerData, onClick }) => (
-  <div className={'PlayerHeader' + (playerData.active ? '' : ' PlayerHeaderInactive')}
+  <div className={'PlayerHeader' + (playerData.active == 1 ? '' : ' PlayerHeaderInactive')}
     onClick={onClick} >
     <img src={scroll} className='PlayerHeaderScroll' />
     <div className='PlayerName'>{playerData.name}&nbsp;&nbsp;&nbsp;</div>
@@ -238,8 +238,8 @@ const PlayerDetails = ({ expanded, playerData, deleteCallback, editCallback }) =
                   </button>
                   <button className="PlayerModifyButton"
                     style={{ marginLeft: '5rem' }}
-                    onClick={() => editCallback({ active: !playerData.active })}>
-                    <b>{playerData.active ? 'Disable' : 'Enable'}</b>
+                    onClick={() => editCallback({ active: playerData.active == 1 ? 0 : 1 })}>
+                    <b>{playerData.active == 1 ? 'Disable' : 'Enable'}</b>
                   </button>
                 </td>
                 <td
