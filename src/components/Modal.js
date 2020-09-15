@@ -10,7 +10,7 @@ import { useModalPosition } from '@hooks';
  * @param {number} left number of units (currently px) from the left side of the viewport
  * @param {number} top  number of units (currently px) from the top of the viewport
  */
-const Modal = ({ left, top, offsetX, offsetY, children, className }) => {
+const Modal = ({ left, top, offsetX, offsetY, children, className, closeModal }) => {
   const [modalLeft, modalTop] = useModalPosition(left, top, offsetX, offsetY);
   const [modalElement] = useState(document.createElement('div'));
 
@@ -36,11 +36,16 @@ const Modal = ({ left, top, offsetX, offsetY, children, className }) => {
       }
     }
   };
-
   useEffect(() => {
     styleModal();
     return cleanUpModal;
   }, [modalLeft, modalTop]);
+
+  const [handleBlur] = useState(() => (e) => { if (e.target !== modalElement) { closeModal(); } });
+  useEffect(() => {
+    document.addEventListener('click', handleBlur);
+    return (() => { document.removeEventListener('click', handleBlur); });
+  });
 
   // Now we're thinking with portals! https://www.youtube.com/watch?v=BePtsISQQpk
   return ReactDOM.createPortal(children, modalElement);

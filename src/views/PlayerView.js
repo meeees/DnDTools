@@ -100,7 +100,7 @@ function PlayerListComponent() {
         onClick={() =>
           addPlayer(
             nameRef.current.value,
-            levelRef.current.value,
+            parseInt(levelRef.current.value) || 1,
             classRef.current.value,
             raceRef.current.value,
           )
@@ -351,7 +351,7 @@ function PlayerItem({ playerId, name, removeItem }) {
         }}
       />
       {showModal && (
-        <Modal left={left} top={top} offsetX={24}>
+        <Modal left={left} top={top} offsetX={24} closeModal={() => { setShowModal(false); }}>
           Delete item?
           <button className='PlayerModifyButton'
             onClick={() => { removeItem(); setShowModal(false); }}>Confirm</button>
