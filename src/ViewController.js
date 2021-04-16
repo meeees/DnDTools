@@ -3,6 +3,7 @@ import NotImplementedComponent from '@src/views/NotImplemented';
 import HomePageComponent from '@src/views/HomePage';
 import PlayerListComponent from '@src/views/PlayerView';
 import EncounterView from '@src/views/EncounterView';
+import RandomBolt from '@src/views/RandomArrows';
 import PropTypes from 'prop-types';
 
 export const Views = {
@@ -10,7 +11,8 @@ export const Views = {
   PLAYERS: 'players',
   ENCOUNTERS: 'encounters',
   AREAS: 'areas',
-  NPCS: 'npcs'
+  NPCS: 'npcs',
+  RANDOMBOLT: 'randombolt'
 };
 
 function ViewController(props) {
@@ -30,7 +32,7 @@ function ViewController(props) {
       comp = <NotImplementedComponent name='Areas' />;
       break;
     case Views.NPCS:
-      comp = <NotImplementedComponent name='NPCs' />;
+      comp = <RandomBolt />;
       break;
   }
   return comp;
